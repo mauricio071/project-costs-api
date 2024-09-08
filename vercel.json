@@ -2,14 +2,14 @@
     "version": 2,
     "builds": [
         {
-            "src": "api/burgers.js",
+            "src": "index.js",
             "use": "@vercel/node"
         }
     ],
     "routes": [
         {
-            "src": "/api/burgers",
-            "dest": "/api/burgers.js"
+            "src": "/(.*)",
+            "dest": "/index.js"
         }
     ]
 }

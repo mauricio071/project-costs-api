@@ -1,7 +1,6 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const app = express();
-app.use(bodyParser.json());
+const PORT = process.env.PORT || 3000;
 
 let burgers = [];
 
@@ -28,36 +27,60 @@ let ingredientes = {
     ],
 };
 
-let statusOptions = [
+let status = [
     { id: 1, tipo: 'Solicitado' },
     { id: 2, tipo: 'Em produção' },
     { id: 3, tipo: 'Finalizado' },
 ];
 
-app.get('/burgers', (req, res) => res.json(burgers));
-app.post('/burgers', (req, res) => {
-    const newBurger = { id: burgers.length + 1, ...req.body };
+app.use(express.json());
+
+app.get('/', (req, res) => {
+    res.send('API Make Your Burger está funcionando!');
+});
+
+app.get('/api/ingredientes', (req, res) => {
+    res.json(ingredientes);
+});
+
+app.get('/api/status', (req, res) => {
+    res.json(status);
+});
+
+app.post('/api/burgers', (req, res) => {
+    const { pao, carne, opcionais, statusId } = req.body;
+
+    if (!pao || !carne || !statusId) {
+        return res.status(400).json({ error: 'Por favor, forneça todos os campos obrigatórios: pao, carne e status.' });
+    }
+
+    const newBurger = {
+        id: burgers.length + 1,
+        pao,
+        carne,
+        opcionais: opcionais || [],
+        statusId,
+    };
+
     burgers.push(newBurger);
     res.status(201).json(newBurger);
 });
-app.put('/burgers/:id', (req, res) => {
-    const id = parseInt(req.params.id);
-    const burgerIndex = burgers.findIndex(b => b.id === id);
-    if (burgerIndex !== -1) {
-        burgers[burgerIndex] = { id, ...req.body };
-        res.json(burgers[burgerIndex]);
-    } else {
-        res.status(404).send('Burger não encontrado');
-    }
-});
-app.delete('/burgers/:id', (req, res) => {
-    const id = parseInt(req.params.id);
-    burgers = burgers.filter(b => b.id !== id);
-    res.status(204).send();
+
+app.get('/api/burgers', (req, res) => {
+    res.json(burgers);
 });
 
-app.get('/ingredientes', (req, res) => res.json(ingredientes));
+app.put('/api/burgers/:id/status', (req, res) => {
+    const burgerId = parseInt(req.params.id);
+    const { statusId } = req.body;
 
-app.get('/status', (req, res) => res.json(statusOptions));
+    const burger = burgers.find(b => b.id === burgerId);
+    if (!burger) return res.status(404).json({ error: 'Burger não encontrado' });
 
-module.exports = app;
+    burger.statusId = statusId;
+    res.json(burger);
+});
+
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+});
