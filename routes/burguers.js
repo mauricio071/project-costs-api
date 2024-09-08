@@ -1,50 +1,33 @@
 const express = require("express");
+const { v4: uuid } = require("uuid");
 const router = express.Router();
-const mongoose = require('mongoose');
 
-const Burguer = mongoose.model('Burguer', {
-    nome: String,
-    pao: String,
-    carne: String,
-    opcionais: Array,
-    status: String
-});
+let burguers = []
 
 router.get("/", async (req, res) => {
-    const burguers = await Burguer.find();
-    return res.send(burguers);
+    return res.status(200).json(burguers);
 });
 
 router.post("/", async (req, res) => {
-    const burguer = new Burguer({
-        nome: req.body.nome,
-        pao: req.body.pao,
-        carne: req.body.carne,
-        opcionais: req.body.opcionais,
-        status: req.body.status
-    });
+    const novoPedido = {
+        id: uuid(),
+        ...req.body
+    }
 
-    await burguer.save();
-    return res.send(burguer);
-});
+    burguers.push(novoPedido)
+    return res.status(201).send("Burguer salvo!")
+})
 
-router.put("/:id", async (req, res) => {
-    const burguer = await Burguer.findByIdAndUpdate(req.params.id, {
-        nome: req.body.nome,
-        pao: req.body.pao,
-        carne: req.body.carne,
-        opcionais: req.body.opcionais,
-        status: req.body.status
-    }, {
-        new: true
-    });
-
-    return res.send(burguer);
+router.patch("/:id", async (req, res) => {
+    let index = burguers.findIndex(item => item.id === req.params.id)
+    burguers[index].status = req.body.status
+    res.json("Status atualizado")
 });
 
 router.delete("/:id", async (req, res) => {
-    const burguer = await Burguer.findByIdAndDelete(req.params.id);
-    return res.send(burguer);
+    let index = burguers.findIndex(item => item.id === req.params.id)
+    burguers.splice(index, 1)
+    return res.send(`Pedido apagado!`)
 });
 
 module.exports = router;

@@ -12,4 +12,9 @@ router.get("/", async (req, res, next) => {
     return res.status(200).json(status)
 })
 
+router.post("/", async (req, res) => {
+    status.push(req.body)
+    return res.status(201).send("sucesso")
+})
+
 module.exports = router;
