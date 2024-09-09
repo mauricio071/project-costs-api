@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
     }
 
     burguers.push(novoPedido)
-    return res.status(201).send("Burguer salvo!")
+    return res.status(201).json(novoPedido)
 })
 
 router.patch("/:id", async (req, res) => {
