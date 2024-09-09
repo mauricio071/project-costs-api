@@ -21,9 +21,7 @@ router.post("/", (req, res) => {
 router.patch("/:id", (req, res) => {
     let index = burguers.findIndex(item => item.id === req.params.id)
     burguers[index].status = req.body.status
-    console.log('chegou até aqui');
-
-    res.json("Status atualizado")
+    return res.send("Status atualizado!")
 });
 
 router.delete("/:id", (req, res) => {
