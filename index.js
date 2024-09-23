@@ -14,7 +14,7 @@ app.use('/api/projects', projects);
 app.use('/api/categories', categories);
 app.use('/api/contacts', contacts);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
