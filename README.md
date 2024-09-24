@@ -1,5 +1,11 @@
 <div align="center"> <h1>Project Costs API</h1> </div>
 
+<p align="center">
+  <img alt="Github Top Language" src="https://img.shields.io/github/languages/top/mauricio071/project-costs-api?color=00bfa6">
+  <img width="1" />
+  <img alt="Repository Size" src="https://img.shields.io/github/repo-size/mauricio071/project-costs-api?color=00bfa6">
+</p>
+
 ## 📝 Sobre o projeto
 A Project Costs API foi desenvolvida como parte do sistema "Project Costs" para gerenciar os custos dos projetos, oferecendo funcionalidades como criação, edição e exclusão de projetos, além do gerenciamento dos serviços.
 
