@@ -41,13 +41,13 @@ $ npm install
 ```bash 
 $ node index.js
 ```
-Agora você pode acessar a API no navegador em http://localhost:3000 (ou na porta indicada pelo terminal).
+Agora você pode acessar a API no navegador em http://localhost:3001/api (ou na porta indicada pelo terminal).
 
 ### 5. Configure o ambiente para o front-end:
 Para que o projeto do front-end consiga consumir a API, instale o projeto do front-end [aqui](https://github.com/mauricio071/Make-Your-Burguer) e configure o arquivo .env no projeto com a URL da API. Por exemplo:
 
 ```bash 
-REACT_APP_BASE_URL=http://localhost:3000
+REACT_APP_BASE_URL=http://localhost:3001/api
 ```
 
 Após configurar o arquivo .env, reinicie o servidor do front-end.
